@@ -23,8 +23,12 @@
         "backgroundColor": "#ffffff"
       }
     },
+    
     "web": {
       "favicon": "./assets/favicon.png"
     }
+  },
+  "expo-location":{
+    "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
   }
 }

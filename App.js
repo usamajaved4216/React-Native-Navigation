@@ -6,13 +6,13 @@ import 'react-native-gesture-handler';
 export default function App() {
   return (
     <>
-      <AppNavigator>
+      {/* <AppNavigator>
         <View style={styles.container}></View>
       </AppNavigator>
 
       <NavigationContainer>
         <WhatsappApp />
-      </NavigationContainer>
+      </NavigationContainer> */}
 
       <NavigationContainer>
         <MyDrawer/>
