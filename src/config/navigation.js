@@ -3,9 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import Chats from '../views/chats'
-import Updates from '../views/updates';
-import Calls from '../views/calls';
+import Ride from '../views/ride';
+import PickUp from '../views/pickup';
+import Destination from '../views/destination';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -15,9 +15,9 @@ function AppNavigator() {
     return (
         <NavigationContainer >
             <Stack.Navigator >
-                <Stack.Screen name="Chats" component={Chats} />
-                <Stack.Screen name="Updates" component={Updates} />
-                <Stack.Screen name="Calls" component={Calls} />
+                <Stack.Screen name="Ride" component={Ride} />
+                <Stack.Screen name="PickUp" component={PickUp} />
+                <Stack.Screen name="Destination" component={Destination} />
             </Stack.Navigator>
         </NavigationContainer>
     );
@@ -26,9 +26,9 @@ function AppNavigator() {
 function WhatsappApp() {
     return (
       <Tab.Navigator>
-        <Tab.Screen name="Chats" component={Chats} />
-        <Tab.Screen name="Updates" component={Updates} />
-        <Tab.Screen name="Calls" component={Calls} />
+        <Tab.Screen name="Ride" component={Ride} />
+        <Tab.Screen name="PickUp" component={PickUp} />
+        <Tab.Screen name="Destination" component={Destination} />
 
       </Tab.Navigator>
     );
@@ -37,9 +37,9 @@ function WhatsappApp() {
   function MyDrawer() {
     return (
       <Drawer.Navigator>
-        <Drawer.Screen name="Chats" component={Chats} />
-        <Drawer.Screen name="Updates" component={Updates} />
-        <Drawer.Screen name="Calls" component={Calls} />
+        <Drawer.Screen name="Ride" component={Ride} />
+        <Drawer.Screen name="PickUp" component={PickUp} />
+        <Drawer.Screen name="Destination" component={Destination} />
       </Drawer.Navigator>
     );
   }
@@ -48,4 +48,4 @@ export {
     AppNavigator,
     WhatsappApp,
     MyDrawer
-} 
+} ;

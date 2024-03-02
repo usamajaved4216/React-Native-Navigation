@@ -1,15 +1,15 @@
 import { View, Text } from "react-native";
 
-function Calls() {
+function Destination() {
     return(
         <>
         <View>
             <Text>
-                Calls
+                Destination
             </Text>
         </View>
         </>
     );
 }
 
-export default Calls;
+export default Destination;

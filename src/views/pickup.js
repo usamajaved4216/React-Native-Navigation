@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { View, Text, StyleSheet, Button } from "react-native";
 import * as Location from 'expo-location';
 
-function Updates({ navigation }) {
+function PickUp({ navigation }) {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -41,12 +41,14 @@ function Updates({ navigation }) {
       <View style={styles.container}>
         <Button
           title="Press me"
-          onPress={() => navigation.navigate('Calls')}
+          onPress={() => navigation.navigate('Destination')}
         />
         <Text>
           Pickup
         </Text>
         <MapView style={styles.map}
+        showsMyLocationButton
+        showsUserLocation
           initialRegion={{
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
@@ -59,8 +61,8 @@ function Updates({ navigation }) {
               latitude: location.coords.latitude,
               longitude: location.coords.longitude,
             }}
-            title={"My Marker Title"}
-            description={"This is my marker description"}
+            title={"Your Location"}
+            description={"Usama Sarkar House "}
           />
         </MapView>
       </View>
@@ -70,7 +72,7 @@ function Updates({ navigation }) {
   );
 }
 
-export default Updates;
+export default PickUp;
 const styles = StyleSheet.create({
   container: {
     flex: 1,

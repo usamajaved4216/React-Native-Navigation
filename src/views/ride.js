@@ -1,17 +1,17 @@
 import { View, Text, Button, TouchableOpacity } from "react-native";
 
-function Chats({ navigation }) {
+function Ride({ navigation }) {
     return (
         <>
             <View>
                 <Button
                     title="Press me"
-                    onPress={() =>navigation.navigate('Updates')}
+                    onPress={() =>navigation.navigate('PickUp')}
                 />
                 </View>
         </>
     )
 };
 
-export default Chats;
+export default Ride;
 
