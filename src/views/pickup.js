@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import * as Location from 'expo-location';
 
 function PickUp({ navigation }) {
@@ -8,10 +8,10 @@ function PickUp({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(null);
   const [places, setPlaces] = useState([]);
   const [pickup, setPickup] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     (async () => {
-
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
         setErrorMsg('Permission to access location was denied');
@@ -21,15 +21,21 @@ function PickUp({ navigation }) {
       Location.watchPositionAsync({
         accuracy: 6,
         distanceInterval: 1,
-      }, (Location) => {
-        setLocation(Location);
-        console.log("🚀 ~ Location:", Location)
+      }, (location) => {
+        setLocation(location);
+        console.log("🚀 ~ Location:", location)
       });
 
     })();
   }, []);
 
   const searchLocation = (text) => {
+    setSearchText(text); // Update search text state
+    if (text.trim() === '') {
+      setPlaces([]);
+      return;
+    }
+
     const options = {
       method: 'GET',
       headers: {
@@ -51,6 +57,14 @@ function PickUp({ navigation }) {
 
   const onPlaceSelect = (item) => {
     setPickup(item);
+    setSearchText(''); // Clear search text
+    setPlaces([]); // Clear places
+  }
+
+  const clearPickup = () => {
+    setPickup('');
+    setSearchText('');
+    setPlaces([]);
   }
 
   let text = 'Waiting..';
@@ -60,36 +74,36 @@ function PickUp({ navigation }) {
     text = JSON.stringify(location);
   }
 
-
   if (!location) {
-    return <Text>Loading...</Text>
+    return <Text style={styles.loadingText}>Loading...</Text>
   }
-
 
   return (
     <>
       {location && (
-        <View style={styles.container}>
-          {/* <Text>Pickup</Text> */}
-
-          <TextInput style={styles.input} placeholder='Search' onChangeText={searchLocation} />
+        <ScrollView style={styles.container}>
+          <TextInput
+            style={styles.input}
+            placeholder='Search'
+            value={searchText}
+            onChangeText={searchLocation}
+          />
           {!pickup && <View>
-            {places.map((item, index) => {
-              return (
-                <TouchableOpacity key={index} onPress={() => onPlaceSelect(item)}>
-                  <Text>{item.name},{item.location.address}</Text>
-                </TouchableOpacity>
-              )
-            })}
+            {places.map((item, index) => (
+              <TouchableOpacity key={index} onPress={() => onPlaceSelect(item)}>
+                <Text>{item.name}, {item.location.address}</Text>
+              </TouchableOpacity>
+            ))}
           </View>}
-
-          {pickup && <View>
-            <Text>Your selected location </Text>
-            <Text>{pickup.name}, {pickup.location.address}</Text>
-          </View>
-          }
-
-
+          {pickup && (
+            <View style={styles.selectedLocationContainer}>
+              <Text>Your selected location:</Text>
+              <Text>{pickup.name}, {pickup.location.address}</Text>
+              <TouchableOpacity onPress={clearPickup}>
+                <Text style={styles.clearPickupText}>Clear</Text>
+              </TouchableOpacity>
+            </View>
+          )}
           <MapView
             showsMyLocationButton
             showsUserLocation
@@ -101,7 +115,6 @@ function PickUp({ navigation }) {
               latitudeDelta: 0.0010,
               longitudeDelta: 0.0010,
             }}>
-
             <Marker
               coordinate={{
                 latitude: location.coords.latitude,
@@ -109,16 +122,14 @@ function PickUp({ navigation }) {
               }}
               title={"My location"}
               description={"This is my marker description"} />
-
           </MapView>
           <TouchableOpacity
-            style={styles.button}
+            style={[styles.button, { backgroundColor: pickup ? 'green' : 'gray' }]}
             disabled={!pickup}
-            onPress={() => navigation.navigate('Destination', { pickup })} >
+            onPress={() => navigation.navigate('Destination', { pickup })}>
             <Text style={styles.buttonText}>Destination</Text>
           </TouchableOpacity>
-        </View>
-
+        </ScrollView>
       )}
     </>
   );
@@ -126,15 +137,13 @@ function PickUp({ navigation }) {
 
 export default PickUp;
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   map: {
     width: '100%',
-    height: '50%',
-    zIndex: 0,
+    height: 300,
     marginTop: 10,
   },
   input: {
@@ -144,7 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignSelf: 'center',
     paddingLeft: 10,
-    marginTop: 20
+    marginTop: 20,
   },
   button: {
     width: 300,
@@ -152,11 +161,27 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignSelf: 'center',
+    marginTop: 20,
   },
   buttonText: {
     color: 'white',
     fontSize: 15,
     textAlign: 'center',
-  }
-
+  },
+  selectedLocationContainer: {
+    marginTop: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    backgroundColor: 'lightgray',
+    borderRadius: 8,
+  },
+  clearPickupText: {
+    color: 'red',
+    marginTop: 5,
+    alignSelf: 'flex-end',
+  },
+  loadingText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
 });

@@ -47,8 +47,6 @@ function VehicleSelection({ route }) {
             <View style={styles.textContainer}>
                 <Text style={styles.textfont}>You'r Selected location</Text>
                 <Text>{pickup.name}, {pickup.location.address}</Text>
-            </View>
-            <View>
                 <Text>{destination.name}, {destination.location.address}</Text>
             </View>
 
@@ -99,6 +97,7 @@ function VehicleSelection({ route }) {
                 </View>
             </ScrollView>
         </View>
+        
     );
 }
 
@@ -107,6 +106,7 @@ export default VehicleSelection;
 const styles = StyleSheet.create({
     textContainer: {
         marginTop: '5%',
+        paddingLeft: 10
     },
     textfont:{
 fontWeight:'bold'
@@ -135,3 +135,8 @@ fontWeight:'bold'
         color: 'green',
     },
 });
+
+
+
+
+

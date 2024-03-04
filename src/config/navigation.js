@@ -7,6 +7,7 @@ import PickUp from '../views/pickup';
 import Destination from '../views/destination';
 import Vechile from '../views/vechile';
 import Dashboard from '../views/dashboard';
+import Donation from '../views/donation';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -56,6 +57,7 @@ function MyDrawer() {
       <Drawer.Screen name="Pickup" component={PickUp} />
       <Drawer.Screen name="Destination" component={Destination} />
       <Drawer.Screen name="Vehicle" component={Vechile} />
+      <Drawer.Screen name="Donation" component={Donation} />
   </Drawer.Navigator>
   );
 }
