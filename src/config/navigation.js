@@ -3,10 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import Ride from '../views/ride';
 import PickUp from '../views/pickup';
 import Destination from '../views/destination';
 import Vechile from '../views/vechile';
+import Dashboard from '../views/dashboard';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
@@ -16,7 +16,7 @@ function AppNavigator() {
   return (
     <NavigationContainer >
       <Stack.Navigator >
-        <Stack.Screen name="Ride" component={Ride} />
+        <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="PickUp" component={PickUp} />
         <Stack.Screen name="Destination" component={Destination} />
       </Stack.Navigator>
@@ -27,7 +27,7 @@ function AppNavigator() {
 function WhatsappApp() {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Ride" component={Ride} />
+      <Tab.Screen name="Dashboard" component={Dashboard} />
       <Tab.Screen name="PickUp" component={PickUp} />
       <Tab.Screen name="Destination" component={Destination} />
 
@@ -37,12 +37,26 @@ function WhatsappApp() {
 
 function MyDrawer() {
   return (
-    <Drawer.Navigator>
-      <Drawer.Screen name="Ride" component={Ride} />
-      <Drawer.Screen name="PickUp" component={PickUp} />
+    <Drawer.Navigator screenOptions={{
+      headerStyle: {
+          backgroundColor: 'rgb(139, 209, 34)', 
+      },
+      drawerStyle: {
+          backgroundColor: 'rgb(31, 31, 36)',
+      },
+      drawerLabelStyle:{
+          fontSize: 17
+      },
+      headerTintColor: '#fff',
+      drawerActiveTintColor: 'green',
+      drawerInactiveTintColor: 'rgb(187, 187, 187)',
+
+  }}>
+      <Drawer.Screen name="Dashboard" component={Dashboard} />
+      <Drawer.Screen name="Pickup" component={PickUp} />
       <Drawer.Screen name="Destination" component={Destination} />
-      <Drawer.Screen name="Vechile" component={Vechile} />
-    </Drawer.Navigator>
+      <Drawer.Screen name="Vehicle" component={Vechile} />
+  </Drawer.Navigator>
   );
 }
 

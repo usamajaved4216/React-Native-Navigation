@@ -61,13 +61,18 @@ function PickUp({ navigation }) {
   }
 
 
+  if (!location) {
+    return <Text>Loading...</Text>
+  }
+
+
   return (
     <>
       {location && (
         <View style={styles.container}>
           {/* <Text>Pickup</Text> */}
 
-          <TextInput placeholder='Search' onChangeText={searchLocation} />
+          <TextInput style={styles.input} placeholder='Search' onChangeText={searchLocation} />
           {!pickup && <View>
             {places.map((item, index) => {
               return (
@@ -106,11 +111,12 @@ function PickUp({ navigation }) {
               description={"This is my marker description"} />
 
           </MapView>
-          <Button
-            title="Destination"
+          <TouchableOpacity
+            style={styles.button}
             disabled={!pickup}
-            onPress={() => navigation.navigate('Destination', { pickup })}
-          />
+            onPress={() => navigation.navigate('Destination', { pickup })} >
+            <Text style={styles.buttonText}>Destination</Text>
+          </TouchableOpacity>
         </View>
 
       )}
@@ -128,6 +134,29 @@ const styles = StyleSheet.create({
   map: {
     width: '100%',
     height: '50%',
-    zIndex: 0
+    zIndex: 0,
+    marginTop: 10,
   },
+  input: {
+    width: '90%',
+    height: 50,
+    backgroundColor: 'gray',
+    borderRadius: 8,
+    alignSelf: 'center',
+    paddingLeft: 10,
+    marginTop: 20
+  },
+  button: {
+    width: 300,
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'center',
+  }
+
 });

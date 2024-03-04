@@ -1,25 +1,30 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
-function Vechile({ route }) {
+function VehicleSelection({ route }) {
     const { pickup, destination } = route.params
-    console.log("🚀 ~ Vechile ~ pickup:", pickup)
+    console.log("🚀 ~ VehicleSelection ~ pickup:", pickup)
 
-    const bikeCharge = {
-        bike: 100,
-        Auto: 150,
-        Car: 300,
+    const VehicleCharges = {
+        Bike: 70,
+        Auto: 130,
+        Car: 200,
+        Delivery: 300,
+        truck: 500,
+        Ship: 1000,
     }
 
-    const calculatedistance = (vechile) => {
-        const { latitude: pickuplat, longitude: pickuplong } = pickup.geocodes.main
-        const { latitude: destinationlat, longitude: destinationlong } = destination.geocodes.main
-        const distance = calcCrow(pickuplat, pickuplong, destinationlat, destinationlong)
-        const fare = bikeCharge[vechile] * distance
-        alert('RS' + fare.toFixed(2))
+    const calculateDistance = (vehicle) => {
+        const { latitude: pickupLat, longitude: pickupLong } = pickup.geocodes.main;
+        const { latitude: destinationLat, longitude: destinationLong } = destination.geocodes.main;
+
+        const distance = calcCrow(pickupLat, pickupLong, destinationLat, destinationLong);
+
+        const fare = VehicleCharges[vehicle] * distance
+        alert('Rs .' + fare.toFixed(2))
     }
 
     function calcCrow(lat1, lon1, lat2, lon2) {
-        var R = 6371;
+        var R = 6371; // km
         var dLat = toRad(lat2 - lat1);
         var dLon = toRad(lon2 - lon1);
         var lat1 = toRad(lat1);
@@ -32,22 +37,101 @@ function Vechile({ route }) {
         return d;
     }
 
+    // Converts numeric degrees to radians
     function toRad(Value) {
         return Value * Math.PI / 180;
     }
 
     return (
-        <>
-            <View>
-                <Text>
-                    {pickup.name}, {pickup.location.address}
-                </Text>
-                <Button title="Bike" onPress={() => calculatedistance('bike')} />
-                <Button title="Auto" onPress={() => calculatedistance('Auto')} />
-                <Button title="Car" onPress={() => calculatedistance('Car')} />
+        <View>
+            <View style={styles.textContainer}>
+                <Text style={styles.textfont}>You'r Selected location</Text>
+                <Text>{pickup.name}, {pickup.location.address}</Text>
             </View>
-        </>
+            <View>
+                <Text>{destination.name}, {destination.location.address}</Text>
+            </View>
+
+            <ScrollView horizontal>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity onPress={() => calculateDistance('Bike')} style={styles.button}>
+                        <View style={styles.buttonContent}>
+                            <Image source={require("../../assets/bike.png")} style={styles.image} />
+                            <Text style={styles.buttonText}>Bike</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => calculateDistance('Auto')} style={styles.button}>
+                        <View style={styles.buttonContent}>
+                            <Image source={require("../../assets/Rickshaw.png")} style={styles.image} />
+                            <Text style={styles.buttonText}>Auto</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => calculateDistance('Car')} style={styles.button}>
+                        <View style={styles.buttonContent}>
+                            <Image source={require("../../assets/car.png")} style={styles.image} />
+                            <Text style={styles.buttonText}>Car</Text>
+                        </View>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity onPress={() => calculateDistance('Delivery')} style={styles.button}>
+                        <View style={styles.buttonContent}>
+                            <Image source={require("../../assets/delivery.jpg")} style={styles.image} />
+                            <Text style={styles.buttonText}>Delivery</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => calculateDistance('truck')} style={styles.button}>
+                        <View style={styles.buttonContent}>
+                            <Image source={require("../../assets/truck.png")} style={styles.image} />
+                            <Text style={styles.buttonText}>Truck</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => calculateDistance('Ship')} style={styles.button}>
+                        <View style={styles.buttonContent}>
+                            <Image source={require("../../assets/Ship.jpg")} style={styles.image} />
+                            <Text style={styles.buttonText}>Ship</Text>
+                        </View>
+                    </TouchableOpacity>
+                    
+                </View>
+            </ScrollView>
+        </View>
     );
 }
 
-export default Vechile;
+export default VehicleSelection;
+
+const styles = StyleSheet.create({
+    textContainer: {
+        marginTop: '5%',
+    },
+    textfont:{
+fontWeight:'bold'
+    },
+    image: {
+        width: 100,
+        height: 100,
+        borderRadius: 100,
+        resizeMode: 'cover'
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: '5%'
+    },
+    button: {
+        alignItems: 'center',
+    },
+    buttonContent: {
+        alignItems: 'center',
+        padding: 10, // Adjust padding as needed
+    },
+    buttonText: {
+        marginTop: 10,
+        color: 'green',
+    },
+});
